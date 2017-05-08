@@ -56,7 +56,6 @@ public class MainClass extends Game {
 		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			if (!hasClicked) {	
-				System.out.println("click");
 				lastClick.set(Gdx.input.getX(), Gdx.input.getY());
 				hasClicked = true;
 			}
@@ -75,10 +74,35 @@ public class MainClass extends Game {
 		cameraUpdate(delta);
 	}
 	
-	private void cameraUpdate(float delta){
-		Vector3 position = camera.position;
-		position.x = player.getBody().getPosition().x * PPM;
-		position.y = player.getBody().getPosition().y * PPM;
+	private void cameraUpdate(float delta){		
+		
+		// constants
+		int shiftStart = 0;
+		
+		// determine camera shift
+		Vector2 pPos = new Vector2(player.getBody().getPosition().x * PPM, player.getBody().getPosition().y * PPM);
+		Vector2 mPos = new Vector2(getX2(), getY2());
+		Vector2 posDiff = new Vector2(mPos.x - pPos.x, mPos.y - pPos.y);
+		Vector2 camShift = new Vector2(posDiff.x/2, posDiff.y/2);
+		
+		// shift when far from player
+		if (posDiff.x < shiftStart && posDiff.x > -shiftStart) {
+			camShift.x = 0;
+		}
+		if (posDiff.y < shiftStart && posDiff.y > -shiftStart) {
+			camShift.y = 0;
+		}
+		
+		// shift camera only if space pressed
+		if (!Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			camShift.x = 0;
+			camShift.y = 0;
+		}
+		
+		// set camera location
+		Vector3 position = camera.position;	
+		position.x = pPos.x + camShift.x;
+		position.y = pPos.y + camShift.y;
 		camera.position.set(position);
 		camera.update();
 	}
