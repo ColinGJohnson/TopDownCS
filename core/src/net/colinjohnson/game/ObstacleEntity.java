@@ -33,4 +33,9 @@ public class ObstacleEntity extends Entity{
 		shape.dispose();
 		setBody(obstBody);
 	}
+	
+	@Override
+	public String toString(){
+		return ("(" + getBody().getPosition().x * Constants.PPM + ", " + getBody().getPosition().y * Constants.PPM + ")");
+	}
 }

@@ -1,8 +1,11 @@
 package net.colinjohnson.game;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,7 +14,8 @@ public class Map {
 	private Vector2 spawn;
 	private Image mapTexture;
 	private World world;
-	private ArrayList<ObstacleEntity> obstacles = new ArrayList<>();
+	private ArrayList<ObstacleEntity> obstacles = new ArrayList<ObstacleEntity>();
+	private FileHandle handle;
 	
 	public Map(){
 		loadMap(0);
@@ -34,7 +38,9 @@ public class Map {
 	} // loadMap
 	
 	private void testMap(){
-		setMapTexture(new Image(new Texture("CacheMap.png")));
+		File mapFile = new File("CacheMap.png");
+		setHandle(new FileHandle(mapFile));
+		setMapTexture(new Image(new Texture(new FileHandle(mapFile))));
 		setWorld(new World(new Vector2(0, 0), false));
 		spawn = new Vector2(400f, 2800f);
 		
@@ -70,4 +76,16 @@ public class Map {
 	public void setWorld(World world) {
 		this.world = world;
 	} // setWorld
+
+	public FileHandle getHandle() {
+		return handle;
+	}
+
+	public void setHandle(FileHandle handle) {
+		this.handle = handle;
+	}
+
+	public ArrayList<ObstacleEntity> getObstacles() {
+		return obstacles;
+	}
 } // Map

@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Json;
 
+import utils.MapScan;
+
 import static utils.Constants.PPM;
 
 public class MainClass extends Game {
@@ -24,6 +26,8 @@ public class MainClass extends Game {
 	private PlayerEntity player;
 	private boolean hasClicked = false;
 	private Vector2 lastClick = new Vector2(0, 0);
+	private boolean temp1 = true;
+	private boolean temp2 = true;
 	
 	// Graphics
 	private SpriteBatch batch;
@@ -39,6 +43,8 @@ public class MainClass extends Game {
 
 	@Override
 	public void create() {
+		
+		// init variables
 		map = new Map();
 		batch = new SpriteBatch();
 		font = new BitmapFont();		
@@ -46,7 +52,11 @@ public class MainClass extends Game {
 		player.setWeapon(new Weapon(0, 0, Weapon.Gun.ak47));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		b2dr = new Box2DDebugRenderer();	
+		b2dr = new Box2DDebugRenderer();
+		
+		// scan map
+		MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
+		//scan.scanMap();
 	}
 
 	public void update(float delta) {
@@ -54,11 +64,21 @@ public class MainClass extends Game {
 			Gdx.app.exit();
 		}
 		
+		if (Gdx.input.isKeyPressed(Input.Keys.B) && temp1) {
+			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
+			scan.scanMap2();
+			temp1 = !temp1;
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.N) && temp2) {
+			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
+			scan.scanMap1();
+			temp2 = !temp2;
+		}
+		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			if (!hasClicked) {	
-				lastClick.set(Gdx.input.getX(), Gdx.input.getY());
-				hasClicked = true;
-			}
+			lastClick.x = getX2();
+			lastClick.y = getY2();
 		}
 		
 		if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {

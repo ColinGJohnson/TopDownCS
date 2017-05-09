@@ -11,8 +11,7 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 		config.fullscreen = false;
-		config.vSyncEnabled = false;
-		//config.addIcon("icon.png", Files.FileType.Internal);
+		config.vSyncEnabled = true;
 		config.title = "squar DOT jar";
 		config.resizable = false;
 		new LwjglApplication(new MainClass(), config);
