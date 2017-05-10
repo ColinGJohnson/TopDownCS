@@ -26,8 +26,11 @@ public class MainClass extends Game {
 	private PlayerEntity player;
 	private boolean hasClicked = false;
 	private Vector2 lastClick = new Vector2(0, 0);
+	
+	// Debug
 	private boolean temp1 = true;
 	private boolean temp2 = true;
+	private boolean temp3 = true;
 	
 	// Graphics
 	private SpriteBatch batch;
@@ -74,6 +77,12 @@ public class MainClass extends Game {
 			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
 			scan.scanMap1();
 			temp2 = !temp2;
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.M) && temp3) {
+			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
+			scan.scanMap3();
+			temp3 = !temp3;
 		}
 		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {

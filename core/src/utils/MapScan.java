@@ -31,12 +31,66 @@ public class MapScan {
 		//target = Color.rgb888(targetColor);
 		target= -2139062017;
 		state = new pixelState[map.getHeight()][map.getWidth()];
-		for (pixelState[] p : state) {
-			for (@SuppressWarnings("unused") pixelState q : p) {
-				q = pixelState.free;
-			}			
+		for (int i = 0; i < state.length; i++) {
+			for (int j = 0; j < state[0].length; j++) {
+				state[i][j] = pixelState.free;
+			}
 		}
 	} // MapScan Constructor
+	
+	/**
+	 * Analyzes given image and adds Box2D bodies accordingly. (Method 3)
+	 */
+	public void scanMap3(){
+		int count = 0;
+		
+		for (int y = 0; y < map.getHeight(); y++) {
+			for (int x = 0; x < map.getWidth(); x++) {
+				if (map.getPixel(x, y) > target + 10000 || map.getPixel(x, y) < target - 10000) {	
+					 state[x][y] = pixelState.invalid;
+				}
+			}
+		}
+		
+		for (int y = 0; y < map.getHeight(); y++) {
+			for (int x = 0; x < map.getWidth(); x++) {		
+				if (state[x][y] == pixelState.free) {					
+					int X = 0;
+					int Y = 0;
+					boolean a = true;
+									
+					while(a){
+						X++;
+						Y++;
+						for (int j = y; j < y + Y && a; j++) {
+							for (int i = x; i < x + X && a; i++) {							
+								if (state[i][j] != pixelState.free) {
+									a = false;
+									X--;
+									Y--;
+								}
+							}
+						}
+					}						
+					targetMap.addObstacle((x + X/2) * 2, (targetMap.getMapTexture().getHeight() - y - Y/2) * 2, X * 2, Y * 2);
+					
+					for (int i = x; i < x + X; i++) {
+						for (int j = y; j < y + Y; j++) {
+							if (i < state.length && j < state[0].length) {
+								state[i][j] = pixelState.covered;
+							}						
+						}
+					}
+					count++;
+					if (count % 1000 == 0) {
+						System.out.println(count);
+					}
+				} else {
+					state[x][y] = pixelState.invalid;
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Analyzes given image and adds Box2D bodies accordingly. (Method 2)
