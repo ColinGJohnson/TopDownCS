@@ -31,6 +31,7 @@ public class MainClass extends Game {
 	private boolean temp1 = true;
 	private boolean temp2 = true;
 	private boolean temp3 = true;
+	private boolean temp4 = true;
 	
 	// Graphics
 	private SpriteBatch batch;
@@ -83,6 +84,12 @@ public class MainClass extends Game {
 			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
 			scan.scanMap3();
 			temp3 = !temp3;
+		}
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.V) && temp4) {
+			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
+			scan.scanMap4();
+			temp4 = !temp4;
 		}
 		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {

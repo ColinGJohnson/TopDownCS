@@ -89,7 +89,7 @@ public class PlayerEntity extends Entity {
 
 		// damage armor with a percentage of the source's power
 		if (hasArmor) {
-			int armorDamage = (int) (source.getPower() - (source.getPower() * source.getPenetration()));
+			int armorDamage = (int) (source.getPower() * source.getPenetration());
 			if (armor - armorDamage < 0) {
 				armor = 0;
 				health -= (armor - armorDamage);
