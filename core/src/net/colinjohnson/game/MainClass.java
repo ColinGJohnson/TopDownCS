@@ -202,7 +202,11 @@ public class MainClass extends Game {
 				shapes.setColor(new Color(0, 0, 1, 1));
 				shapes.line(getX2(), getY2(), player.getX(), player.getY());
 			} else if (toDraw instanceof BotEntity) {
-				shapes.setColor(new Color(1, 0, 0, 1));
+				if (((BotEntity) toDraw).hasLOS) {
+					shapes.setColor(new Color(0, 1, 0, 1));
+				} else {
+					shapes.setColor(new Color(1, 0, 0, 1));
+				}				
 				shapes.line(toDraw.getX(), toDraw.getY(), player.getX(), player.getY());
 			}
 		}
