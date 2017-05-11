@@ -15,6 +15,8 @@ public class Map {
 	private Image mapTexture;
 	private World world;
 	private ArrayList<ObstacleEntity> obstacles = new ArrayList<ObstacleEntity>();
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	private ArrayList<PlayerEntity> players = new ArrayList<PlayerEntity>();
 	private FileHandle handle;
 	
 	public Map(){
@@ -22,13 +24,23 @@ public class Map {
 	} // Map Constructor
 	
 	public void update() {
+		
+		// update physics
 		world.step(1/60f, 6, 2);
+		
+		// update bots
+		for (PlayerEntity player : players) {
+			if (player instanceof BotEntity) {
+				((BotEntity) player).botUpdate();
+			}
+		}
+		
 	} // update
 	
 	public void loadMap(int mapNumber){
 		switch (mapNumber) {
 		case 0:
-			System.out.println("loading test map");
+			if(utils.Constants.DEBUG_MSGS)System.out.println("loading test map");
 			testMap();
 			break;
 
@@ -43,9 +55,6 @@ public class Map {
 		setMapTexture(new Image(new Texture(new FileHandle(mapFile))));
 		setWorld(new World(new Vector2(0, 0), false));
 		spawn = new Vector2(400f, 2800f);
-		
-		// test hitboxes
-		obstacles.add(new ObstacleEntity(spawn.x - 200, spawn.y - 200, 150, 150, this));
 	} // testMap
 	
 	public void addObstacle(float x, float y, float width, float height){
@@ -87,5 +96,21 @@ public class Map {
 
 	public ArrayList<ObstacleEntity> getObstacles() {
 		return obstacles;
+	}
+
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
+
+	public void setProjectiles(ArrayList<Projectile> projectile) {
+		this.projectiles = projectile;
+	}
+
+	public ArrayList<PlayerEntity> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(ArrayList<PlayerEntity> players) {
+		this.players = players;
 	}
 } // Map

@@ -8,14 +8,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.Json;
 
+import utils.Constants;
 import utils.MapScan;
 
 import static utils.Constants.PPM;
@@ -36,8 +37,10 @@ public class MainClass extends Game {
 	// Graphics
 	private SpriteBatch batch;
 	private BitmapFont font;
+	GlyphLayout layout;
 	private OrthographicCamera camera;
 	private Box2DDebugRenderer b2dr;	
+	ShapeRenderer shapes;
 	private float imageScale = 2f;
 	private int fps;
 	public final int fpsTarget = 60;
@@ -49,65 +52,61 @@ public class MainClass extends Game {
 	public void create() {
 		
 		// init variables
-		map = new Map();
+		map = new Map();		
 		batch = new SpriteBatch();
-		font = new BitmapFont();		
+		font = new BitmapFont();	
+		layout = new GlyphLayout();
 		player = new PlayerEntity("Player_1", map);
+		map.getPlayers().add(player);
 		player.setWeapon(new Weapon(0, 0, Weapon.Gun.ak47));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		b2dr = new Box2DDebugRenderer();
+		shapes = new ShapeRenderer();
+		
+		// add a bot
+		map.getPlayers().add(new BotEntity("BOT", map));
 		
 		// scan map
 		MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
-		//scan.scanMap();
+		scan.scanMap4();
 	}
 
-	public void update(float delta) {
+	public void update(float delta) {	
+		
+		// FPS calculation
+		fps = (Gdx.graphics.getDeltaTime() == 0) ? 0 : (int) (1 / Gdx.graphics.getDeltaTime());	
+		
+		// update map	
+		map.update();
+		
+		// update input
+		inputUpdate();
+		
+		// update currently controlled player
+		player.update(delta, getX2(), getY2());
+		
+		// update camera position
+		cameraUpdate(delta);
+	}
+	
+	private void inputUpdate(){
+		// Input
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.B) && temp1) {
-			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
-			scan.scanMap2();
-			temp1 = !temp1;
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.N) && temp2) {
-			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
-			scan.scanMap1();
-			temp2 = !temp2;
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.M) && temp3) {
-			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
-			scan.scanMap3();
-			temp3 = !temp3;
-		}
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.V) && temp4) {
-			MapScan scan = new MapScan(map, new Color(0.5f, 0.5f, 0.5f, 1f));
-			scan.scanMap4();
-			temp4 = !temp4;
-		}
-		
+			}
+				
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			lastClick.x = getX2();
 			lastClick.y = getY2();
 		}
-		
+				
 		if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 			if (hasClicked) {
 				map.addObstacle(lastClick.x, lastClick.y, Math.abs(lastClick.x - Gdx.input.getX()), Math.abs(lastClick.x - Gdx.input.getY()));
 			}
 			hasClicked = false;
 		}
-		
-		fps = (Gdx.graphics.getDeltaTime() == 0) ? 0 : (int) (1 / Gdx.graphics.getDeltaTime());	
-		map.update();
-		player.update(getX2(), getY2());
-		cameraUpdate(delta);
 	}
 	
 	private void cameraUpdate(float delta){		
@@ -145,6 +144,8 @@ public class MainClass extends Game {
 
 	@Override
 	public void render() {
+		
+		// update game world
 		update(Gdx.graphics.getDeltaTime());
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -154,7 +155,10 @@ public class MainClass extends Game {
 		batch.begin();		
 		map.getMapTexture().draw(batch, 1f);
 		
-		Vector3 screenTop = camera.unproject(new Vector3(0, 0, 0));		
+		// draw debug info
+		Vector3 screenTop = camera.unproject(new Vector3(0, 0, 0));	
+		font.setColor(Color.WHITE);
+		font.getData().setScale(1f);
 		font.draw(batch, "FPS: " + String.valueOf(fps), screenTop.x, screenTop.y);
 		font.draw(batch, "Cursor X: " + String.valueOf(getX2()), screenTop.x, screenTop.y - 15);
 		font.draw(batch, "Cursor Y: " + String.valueOf(getY2()), screenTop.x, screenTop.y - 30);		
@@ -164,20 +168,48 @@ public class MainClass extends Game {
 		font.draw(batch, "Player Pos (px): " + String.valueOf(player.getX()) + ", " + String.valueOf(player.getY()), screenTop.x, screenTop.y - 90);
 		font.draw(batch, "Body Pos (m): " + String.valueOf(player.getBody().getPosition()), screenTop.x, screenTop.y - 105);
 		font.draw(batch, "Bodies: " + map.getWorld().getBodyCount(), screenTop.x, screenTop.y - 120);
-		batch.end();
+
+		// draw player names		
+		font.getData().setScale(0.75f);
+		for (PlayerEntity target: map.getPlayers()) {
+			if (target instanceof BotEntity) {
+				font.setColor(Color.RED);
+			} else {
+				font.setColor(Color.BLUE);
+			}			
+			layout.setText(font, target.getPlayerName());
+			font.draw(batch, layout, target.getX() - layout.width/2, target.getY() + target.getSize() + 10);
+		}
+		batch.end();		
 		
-		ShapeRenderer shapes = new ShapeRenderer();
+		// ShapeRenderer to draw non-image shapes		
 		shapes.setProjectionMatrix(camera.combined);
 		shapes.begin(ShapeType.Filled);
-		shapes.setColor(new Color(0, 1, 0, 1));
-		float playerX = player.getBody().getPosition().x * PPM;
-		float playerY = player.getBody().getPosition().y * PPM;
-		shapes.rect(playerX - player.getSize()/2, playerY - player.getSize()/2, player.getSize()/2, player.getSize()/2, player.getSize(), player.getSize(), 1f, 1f, player.getRotation());
-		shapes.setColor(new Color(1, 0, 0, 1));
-		shapes.line(getX2(), getY2(), playerX, playerY);
-		shapes.end(); 
 		
-		b2dr.render(map.getWorld(), camera.combined.scl(PPM));
+		// draw players
+		for (PlayerEntity target: map.getPlayers()) {
+			if (target instanceof BotEntity) {
+				shapes.setColor(Color.RED);
+			} else {
+				shapes.setColor(Color.BLUE);
+			}			
+			shapes.rect(target.getX() - target.getSize()/2, target.getY() - target.getSize()/2, target.getSize()/2, target.getSize()/2, target.getSize(), target.getSize(), 1f, 1f, target.getRotation());
+		}
+		
+		// draw view lines
+		for (PlayerEntity toDraw : map.getPlayers()) {
+			if (toDraw.equals(player)) {
+				shapes.setColor(new Color(0, 0, 1, 1));
+				shapes.line(getX2(), getY2(), player.getX(), player.getY());
+			} else if (toDraw instanceof BotEntity) {
+				shapes.setColor(new Color(1, 0, 0, 1));
+				shapes.line(toDraw.getX(), toDraw.getY(), player.getX(), player.getY());
+			}
+		}
+		shapes.end();
+		
+		// render test Box2D shapes
+		if (Constants.DEBUG_DRAW)b2dr.render(map.getWorld(), camera.combined.scl(PPM));
 	}
 
 	@Override
@@ -190,6 +222,7 @@ public class MainClass extends Game {
 		batch.dispose();
 		b2dr.dispose();
 		map.getWorld().dispose();
+		font.dispose();
 	}
 	
 	private int getX2() {

@@ -31,6 +31,7 @@ public class ObstacleEntity extends Entity{
 		shape.setAsBox(width / 2 / Constants.PPM, height / 2 / Constants.PPM); // NOTE: width & height measured from center		
 		obstBody.createFixture(shape, 1.0f);
 		shape.dispose();
+		obstBody.setUserData(this);
 		setBody(obstBody);
 	}
 	

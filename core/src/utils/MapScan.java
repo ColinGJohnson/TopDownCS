@@ -43,7 +43,6 @@ public class MapScan {
 	 * Analyzes given image and adds Box2D bodies accordingly. (Method 4)
 	 */
 	public void scanMap4(){
-		int count = 0;
 		
 		for (int y = 0; y < map.getHeight(); y++) {
 			for (int x = 0; x < map.getWidth(); x++) {
@@ -108,10 +107,6 @@ public class MapScan {
 								state[i][j] = pixelState.covered;
 							}						
 						}
-					}
-					count++;
-					if (count % 1000 == 0) {
-						System.out.println(count);
 					}
 				} else {
 					state[x][y] = pixelState.invalid;
@@ -124,7 +119,6 @@ public class MapScan {
 	 * Analyzes given image and adds Box2D bodies accordingly. (Method 3)
 	 */
 	public void scanMap3(){
-		int count = 0;
 		
 		for (int y = 0; y < map.getHeight(); y++) {
 			for (int x = 0; x < map.getWidth(); x++) {
@@ -163,10 +157,6 @@ public class MapScan {
 								state[i][j] = pixelState.covered;
 							}						
 						}
-					}
-					count++;
-					if (count % 1000 == 0) {
-						System.out.println(count);
 					}
 				} else {
 					state[x][y] = pixelState.invalid;
@@ -197,7 +187,6 @@ public class MapScan {
 	 * Analyzes given image and adds Box2D bodies accordingly. (Method 1)
 	 */
 	public void scanMap1(){
-		int count = 0;
 		
 		// check each pixel individually
 		for (int y = 0; y < map.getHeight(); y++) {
@@ -236,10 +225,6 @@ public class MapScan {
 						
 						// if enough vertical room, mark area as used and create object
 						if (width > 1 && height > 1 && !invalid) {
-							count++;
-							if (count%100 == 0) {
-								System.out.println(count);
-							}
 							if (utils.Constants.DEBUG_MSGS)System.out.println("Found clear area at (" + x + ", " + y + ") width: " + width + "px, height" + height + "px.");
 							
 							// mark area as used
@@ -250,7 +235,6 @@ public class MapScan {
 							}
 							
 							// add new object
-							//TODO: What is this width/2 needed?
 							targetMap.addObstacle((x + width/2) * 2, (targetMap.getMapTexture().getHeight() - y) * 2, width * 2, height * 2);
 						}
 					}
