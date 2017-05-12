@@ -52,7 +52,7 @@ public class MainClass extends Game {
 		layout = new GlyphLayout();
 		player = new PlayerEntity("Player_1", map);
 		map.getPlayers().add(player);
-		player.setWeapon(new Weapon(0, 0, Weapon.Gun.ak47));
+		player.setWeapon(new Weapon(map, 0, 0, Weapon.Gun.ak47));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		b2dr = new Box2DDebugRenderer();

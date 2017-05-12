@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class Entity {
-	private UUID id;
+	private Map mapRef; // the game world this entity is in
+	private UUID id; // this entity's unique ID
 	private boolean isMovable = true; 
 	private float x = 0; // X-Position
 	private float y = 0; // Y-Position
@@ -15,23 +16,18 @@ public abstract class Entity {
 	private float vMax = 10; // maximum allowed velocity
 	private float size = 10;
 	private String name = ""; // Entity name	
-	private float rotation = 0;
-	private Sprite sprite;
-	private Body body;
+	private float rotation = 0; // the sprite & hit box rotation
+	private Sprite sprite; // this entity's sprite
+	private Body body; // this entity's hit box
 	
-	public Entity (float x, float y, String name){
+	public Entity (Map map, float x, float y, String name){
 		sprite = new Sprite(new Texture("sprites/Missing.png"));
+		this.mapRef = map;
 		this.x = x;
 		this.y = y;
 		this.name = name; 
 		setId(UUID.randomUUID());
 	} // Entity Constructor;
-	
-	
-	public void update(){
-		x = body.getPosition().x;
-		y = body.getPosition().y;
-	}
 	
 	abstract void defineBody();
 
@@ -123,5 +119,15 @@ public abstract class Entity {
 
 	public void setV(float v) {
 		this.v = v;
+	}
+
+
+	public Map getMapRef() {
+		return mapRef;
+	}
+
+
+	public void setMapRef(Map mapRef) {
+		this.mapRef = mapRef;
 	}
 } // Entity

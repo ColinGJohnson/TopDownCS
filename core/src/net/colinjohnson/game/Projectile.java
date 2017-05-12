@@ -29,17 +29,22 @@ public class Projectile {
 	Vector2 stop = new Vector2();
 	Vector2 stopW = new Vector2();
 	
-	public Projectile(Map mapRef, PlayerEntity player, Weapon source){
+	/**
+	 * Constructs a new Projectile.
+	 * @param mapRef The map to shoot a Projectile on.
+	 * @param player The player who is shooting this Projectile.
+	 * @param source The weapon that shot this Projectile
+	 * @param rotation The shot angle
+	 */
+	public Projectile(Map mapRef, PlayerEntity player, Weapon source, float rotation){
 		this.mapRef = mapRef;
 		this.player = player;
 		this.source = source;
 		this.timeCreated = System.currentTimeMillis();
-		fire();
+		fire(rotation);
 	}
 	
-	public void fire(){
-		
-		float rotation = player.getRotation() - 90;	
+	public void fire(float rotation){
 		
 		// ray cast callback to register impacts
 		RayCastCallback rcc = new RayCastCallback() {		

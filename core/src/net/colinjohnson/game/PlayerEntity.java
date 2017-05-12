@@ -12,21 +12,18 @@ import utils.Constants;
 public class PlayerEntity extends Entity {
 	private boolean alive = true;
 	private boolean hasArmor = false;
+	private boolean isRunning = true;
 	private int health = 100;
 	private int maxHealth = 100;
 	private int armor = 100;
 	private String playerName = "";
 	private Weapon weapon;
 	private int money = 0;
-	private Map mapRef;
 	private Vector2 mousePos = new Vector2(0, 0);
-	private static final float FIRING_DELAY = 0.5f;
-	private double lastShot = 0;
-
+	
 	public PlayerEntity(String playerName, Map map) {
-		super(0, 0, "Player");
+		super(map, 0, 0, "Player");
 		this.setPlayerName(playerName);
-		mapRef = map;
 		setV(5);
 		setSize(32);
 		defineBody();
@@ -39,10 +36,10 @@ public class PlayerEntity extends Entity {
 		PolygonShape shape = new PolygonShape();
 	
 		def.type = BodyDef.BodyType.DynamicBody;
-		def.position.set(mapRef.getSpawn().x / Constants.PPM, mapRef.getSpawn().y / Constants.PPM);
+		def.position.set(getMapRef().getSpawn().x / Constants.PPM, getMapRef().getSpawn().y / Constants.PPM);
 		def.fixedRotation = true;		
 		shape.setAsBox(32 / 2 / Constants.PPM, 32 / 2 / Constants.PPM); // NOTE: width & height measured from center		
-		playerBody = mapRef.getWorld().createBody(def);	
+		playerBody = getMapRef().getWorld().createBody(def);	
 		playerBody.createFixture(shape, 1.0f);
 		playerBody.setUserData(this);
 		setBody(playerBody);
@@ -53,7 +50,7 @@ public class PlayerEntity extends Entity {
 		
 		// check if player is dead, if so remove
 		if (health < 0) {
-			mapRef.getPlayers().remove(this);
+			getMapRef().getPlayers().remove(this);
 		}
 		
 		// update entity position
@@ -75,34 +72,38 @@ public class PlayerEntity extends Entity {
 		float verticalForce = 0;
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			if (distance > 0) {
+				/* disabled sketchy movement */
 				horizontalForce += getV() * (xDistance/distance) * speedScale;
 				verticalForce += getV() * (yDistance/distance) * speedScale;
+				//verticalForce += getV();
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 			if (distance > 0) {				
+				/* disabled sketchy movement */
 				horizontalForce -= getV() * (xDistance/distance) * speedScale;
 				verticalForce -= getV() * (yDistance/distance) * speedScale;
+				//verticalForce -= getV();
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			if (distance > 0) {
-				
+				//horizontalForce -= getV();
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			if (distance > 0) {
-				
+				//horizontalForce += getV();
 			}
 		}	
 		getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);	
 		
+		// update weapon spread
+		weapon.updateSpread();
 		
-		// update fire mechanics
-		lastShot += delta;
+		// try to shoot if left mouse button pressed
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			lastShot = 0;
-			shoot();
+			weapon.shoot(this);
 		}
 	} // update
 	
@@ -141,13 +142,6 @@ public class PlayerEntity extends Entity {
 			setAlive(false);
 		} // if
 	} // damage
-
-	/**
-	 * Fires a shot based on the current weapon.
-	 */
-	public void shoot() {
-		mapRef.getProjectiles().add(new Projectile(mapRef, this, weapon));
-	} // shoot
 
 	public String getPlayerName() {
 		return playerName;
@@ -211,14 +205,6 @@ public class PlayerEntity extends Entity {
 
 	public void setArmor(int armor) {
 		this.armor = armor;
-	}
-
-	public Map getMapRef() {
-		return mapRef;
-	}
-
-	public void setMapRef(Map mapRef) {
-		this.mapRef = mapRef;
 	}
 
 	public int getMaxHealth() {
