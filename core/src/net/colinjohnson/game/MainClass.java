@@ -210,6 +210,15 @@ public class MainClass extends Game {
 				shapes.line(toDraw.getX(), toDraw.getY(), player.getX(), player.getY());
 			}
 		}
+		
+		// draw projectile rays
+		for (Projectile toDraw : map.getProjectiles()) {	
+			shapes.setColor(Color.GRAY);
+			shapes.line(toDraw.p1W.x, toDraw.p1W.y, toDraw.p2W.x, toDraw.p2W.y);
+			shapes.setColor(Color.GOLD);
+			shapes.line(toDraw.p1W.x, toDraw.p1W.y, toDraw.stopW.x, toDraw.stopW.y);		
+		}
+		
 		shapes.end();
 		
 		// render test Box2D shapes

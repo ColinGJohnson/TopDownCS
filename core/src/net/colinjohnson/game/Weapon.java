@@ -23,22 +23,160 @@ public class Weapon extends Entity{
 	private int bulletsRemaining = 0; // bullets left in current magazine
 
 	public static enum Gun {
+		
+		// pistols
 		glock,
-		ak47
+		usps,
+		p2000,
+		p250,
+		tec9,
+		cz,
+		fiveseven,
+		
+		// smgs
+		mp9,
+		mac10,
+		mp7,
+		ppbizon,
+		ump45,
+		
+		// rifles
+		ak47,
+		m4a4,
+		m4a1s,
+		galil,
+		famas,
+		awp,
+		sg553,
+		ssg08,
+		scar20,
+		g3sg1,
+		
+		// misc
+		zeus
+		
 	}
 	
 	public Weapon(float x, float y, Gun gunType){
 		super(x, y, "Gun");
 		switch (gunType) {
+		
+		// pistols
 		case glock:
 			penetration = 47.5;
 			power = 28;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case p2000:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case p250:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case tec9:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case cz:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case fiveseven:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			
+		// smgs
+		case mp9:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case mac10:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case mp7:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case ppbizon:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case ump45:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+			
+		// rifles
 		case ak47:
 			penetration = 77.5;
 			power = 36;
-			setSprite(new Sprite(new Texture("AK47.png")));
+			setSprite(new Sprite(new Texture("sprites/AK47.png")));
+			break;
+		case m4a4:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case m4a1s:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case galil:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case famas:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case awp:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case sg553:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case ssg08:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case scar20:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+		case g3sg1:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
+			break;
+			
+		// misc
+		case zeus:
+			penetration = 0;
+			power = 0;
+			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			
 		default:

@@ -3,7 +3,7 @@ package utils;
 import java.util.ArrayList;
 
 public class Console {
-	private ArrayList<String> log = new ArrayList<>();
+	private ArrayList<String> log = new ArrayList<String>();
 
 	/**
 	 * Issues a command to the console.

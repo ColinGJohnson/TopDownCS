@@ -20,7 +20,7 @@ public abstract class Entity {
 	private Body body;
 	
 	public Entity (float x, float y, String name){
-		sprite = new Sprite(new Texture("Missing.png"));
+		sprite = new Sprite(new Texture("sprites/Missing.png"));
 		this.x = x;
 		this.y = y;
 		this.name = name; 

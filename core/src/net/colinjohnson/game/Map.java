@@ -50,7 +50,7 @@ public class Map {
 	} // loadMap
 	
 	private void testMap(){
-		File mapFile = new File("CacheMap.png");
+		File mapFile = new File("maps/CacheMap.png");
 		setHandle(new FileHandle(mapFile));
 		setMapTexture(new Image(new Texture(new FileHandle(mapFile))));
 		setWorld(new World(new Vector2(0, 0), false));
