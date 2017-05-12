@@ -1,8 +1,5 @@
 package net.colinjohnson.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,11 +10,11 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import utils.Constants;
 
 public class BotEntity extends PlayerEntity{
-	Vector2 p1 = new Vector2(), p2 = new Vector2(), collision = new Vector2(), normal = new Vector2();
 	boolean hasLOS = false;
 	
 	public BotEntity(String playerName, Map map) {
 		super(playerName, map);
+		setV(1f);
 	}
 	
 	public void botUpdate(){
@@ -25,10 +22,7 @@ public class BotEntity extends PlayerEntity{
 		// target a player	
 		for (PlayerEntity target : getMapRef().getPlayers()) {
 			if (target != this && target != null) {
-				
-				// rotate to face player							
-				rotateToPosition(target.getX(), target.getY());
-				
+
 				// check line of sight
 				hasLOS = true;
 				RayCastCallback rcc = new RayCastCallback() {
@@ -44,20 +38,27 @@ public class BotEntity extends PlayerEntity{
 				};
 				getMapRef().getWorld().rayCast(rcc, this.getBody().getPosition(), target.getBody().getPosition());
 				
-				// move towards player if has line of sight
+				// move towards player if has line of sight and isn't too close
+				float xDistance = target.getX() - getBody().getPosition().x * Constants.PPM;
+				float yDistance = target.getY() - getBody().getPosition().y * Constants.PPM;	
+				float distance = (float) Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 				if (hasLOS) {
-					float xDistance = target.getX() - getBody().getPosition().x * Constants.PPM;
-					float yDistance = target.getY() - getBody().getPosition().y * Constants.PPM;
-					float distance = (float) Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-					float horizontalForce = 0;
-					float verticalForce = 0;
-					if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-						if (distance > 0) {
-							horizontalForce += getV() * (xDistance/distance);
-							verticalForce += getV() * (yDistance/distance);
-						}
-					}
-					this.getBody().setLinearVelocity(horizontalForce, verticalForce);
+					
+					// rotate to face player				
+					rotateToPosition(target.getX(), target.getY());
+					
+					if (distance > 100) {
+						this.getBody().setLinearDamping(5f);
+						float horizontalForce = 0;
+						float verticalForce = 0;
+						horizontalForce += getV() * (xDistance/distance);
+						verticalForce += getV() * (yDistance/distance);
+						this.getBody().setLinearVelocity(getBody().getLinearVelocity().x + horizontalForce, getBody().getLinearVelocity().y + verticalForce);
+					}			
+				
+				// stop bot from skidding into player
+				} if ( distance < 200){
+					this.getBody().setLinearDamping(20f);
 				}
 			}
 		}		
