@@ -35,6 +35,15 @@ public class Map {
 			}
 		}
 		
+		// clean up projectiles
+		ArrayList<Object> remove = new ArrayList<Object>();
+		for (Projectile projectile : projectiles) {
+			if (projectile.timeCreated + 3000 < System.currentTimeMillis()) {
+				remove.add(projectile);
+			}
+		}
+		projectiles.removeAll(remove);
+		
 	} // update
 	
 	public void loadMap(int mapNumber){

@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.height = 720;
 		config.fullscreen = false;
 		config.vSyncEnabled = true;
-		config.title = "squar DOT jar";
+		config.title = "\"Squar DOT Jar\"";
 		config.resizable = false;
 		new LwjglApplication(new MainClass(), config);
 	}

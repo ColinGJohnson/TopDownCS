@@ -8,19 +8,22 @@ public class Weapon extends Entity{
 
 	private boolean isHeld = true;
 	private String owner = ""; // player who bought it
-	private double power = 0; // max damage
+	
+	private double power = 0; // max damage	
 	private double penetration = 0; // % power to surpass armor 
-	private double velocity = 0; // bullet velocity
 	private double fallOffRate = 0; // decrease in power per tick
-	private double reloadTime = 0; // time to reload
-	private double spread = 0; // max spread (degrees)
+	private double reloadTime = 0; // time to reload	
+	private double velocity = 0; // bullet velocity
+	private float movementSpeed = 0; // % of max movement speed
 	private int fireRate = 0; // firing delay (ms)
+	private int lastFired = 0; // time when gun was last fired (ms)	
+	private double spread = 0; // max spread (degrees)
 	private int capacity = 0; // bullets per magazine
 	private int ammo = 0; // bullets remaining aside
 	private int cost = 0; // buy cost
 	private int killAward = 0; // money awarded for kill
-	private int lastFired = 0; // time when gun was last fired (ms)
 	private int bulletsRemaining = 0; // bullets left in current magazine
+	
 
 	public static enum Gun {
 		
@@ -63,119 +66,396 @@ public class Weapon extends Entity{
 		
 		// pistols
 		case glock:
-			penetration = 47.5;
-			power = 28;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case p2000:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case p250:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case tec9:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case cz:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case fiveseven:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			
 		// smgs
 		case mp9:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case mac10:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case mp7:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case ppbizon:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case ump45:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			
 		// rifles
 		case ak47:
-			penetration = 77.5;
-			power = 36;
+			power = 0; // max damage
+			power = 36; // max damage
+			penetration = 0.775; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 100; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/AK47.png")));
 			break;
 		case m4a4:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case m4a1s:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case galil:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case famas:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case awp:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case sg553:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case ssg08:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case scar20:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 		case g3sg1:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			
 		// misc
 		case zeus:
-			penetration = 0;
-			power = 0;
+			power = 0; // max damage
+			penetration = 0; // % power to surpass armor 
+			fallOffRate = 0; // decrease in power per tick
+			reloadTime = 0; // time to reload	
+			velocity = 0; // bullet velocity
+			movementSpeed = 0; // % of max movement speed
+			fireRate = 0; // firing delay (ms)
+			lastFired = 0; // time when gun was last fired (ms)	
+			spread = 0; // max spread (degrees)
+			capacity = 0; // bullets per magazine
+			ammo = 0; // bullets remaining aside
+			cost = 0; // buy cost
+			killAward = 0; // money awarded for kill
+			bulletsRemaining = 0; // bullets left in current magazine
+			
 			setSprite(new Sprite(new Texture("sprites/Missing.png")));
 			break;
 			

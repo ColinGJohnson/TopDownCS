@@ -28,12 +28,6 @@ public class MainClass extends Game {
 	private boolean hasClicked = false;
 	private Vector2 lastClick = new Vector2(0, 0);
 	
-	// Debug
-	private boolean temp1 = true;
-	private boolean temp2 = true;
-	private boolean temp3 = true;
-	private boolean temp4 = true;
-	
 	// Graphics
 	private SpriteBatch batch;
 	private BitmapFont font;
@@ -163,7 +157,7 @@ public class MainClass extends Game {
 		font.draw(batch, "Cursor X: " + String.valueOf(getX2()), screenTop.x, screenTop.y - 15);
 		font.draw(batch, "Cursor Y: " + String.valueOf(getY2()), screenTop.x, screenTop.y - 30);		
 		font.draw(batch, "Player Rotation: " + String.valueOf(player.getRotation()), screenTop.x, screenTop.y - 45);		
-		font.draw(batch, String.valueOf(player.getSprite().getRotation() + 180), screenTop.x, screenTop.y - 60);
+		font.draw(batch, String.valueOf(player.getSprite().getRotation() - 90), screenTop.x, screenTop.y - 60);
 		font.draw(batch, player.getPlayerName() + ": $" + String.valueOf(player.getMoney()), screenTop.x, screenTop.y - 75);
 		font.draw(batch, "Player Pos (px): " + String.valueOf(player.getX()) + ", " + String.valueOf(player.getY()), screenTop.x, screenTop.y - 90);
 		font.draw(batch, "Body Pos (m): " + String.valueOf(player.getBody().getPosition()), screenTop.x, screenTop.y - 105);
@@ -213,10 +207,20 @@ public class MainClass extends Game {
 		
 		// draw projectile rays
 		for (Projectile toDraw : map.getProjectiles()) {	
+			
+			// pre-impact
 			shapes.setColor(Color.GRAY);
 			shapes.line(toDraw.p1W.x, toDraw.p1W.y, toDraw.p2W.x, toDraw.p2W.y);
+			
+			// post-impact
 			shapes.setColor(Color.GOLD);
 			shapes.line(toDraw.p1W.x, toDraw.p1W.y, toDraw.stopW.x, toDraw.stopW.y);		
+			
+			// impact point
+			shapes.setColor(Color.MAGENTA);
+			shapes.setAutoShapeType(true);
+			shapes.set(ShapeType.Line);
+			shapes.circle(toDraw.stopW.x, toDraw.stopW.y, 3);;
 		}
 		
 		shapes.end();

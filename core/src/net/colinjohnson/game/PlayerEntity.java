@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import utils.Constants;
@@ -49,11 +47,14 @@ public class PlayerEntity extends Entity {
 		playerBody.setUserData(this);
 		setBody(playerBody);
 		shape.dispose();
-		
-		Body botBody;
 	} // defineBody
 
 	void update(float delta, float mouseX, float mouseY) {
+		
+		// check if player is dead, if so remove
+		if (health < 0) {
+			mapRef.getPlayers().remove(this);
+		}
 		
 		// update entity position
 		setX(getBody().getPosition().x * Constants.PPM);
@@ -123,7 +124,7 @@ public class PlayerEntity extends Entity {
 
 		// damage armor with a percentage of the source's power
 		if (hasArmor) {
-			int armorDamage = (int) (source.getPower() * source.getPenetration());
+			int armorDamage = (int) (source.getPower() - source.getPower() * source.getPenetration());
 			if (armor - armorDamage < 0) {
 				armor = 0;
 				health -= (armor - armorDamage);
@@ -218,5 +219,13 @@ public class PlayerEntity extends Entity {
 
 	public void setMapRef(Map mapRef) {
 		this.mapRef = mapRef;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 } // Player
