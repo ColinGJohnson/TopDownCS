@@ -50,7 +50,7 @@ public class Weapon extends Entity{
 		ump45 {int cost = 10;},
 		
 		// rifles
-		ak47 {int cost = 10;},
+		ak47 {int cost = 2700;},
 		m4a4 {int cost = 10;},
 		m4a1s {int cost = 10;},
 		galil {int cost = 10;},
@@ -79,8 +79,28 @@ public class Weapon extends Entity{
 		
 		// shoot only of enough time has elapsed
 		if (lastFired + fireRate < System.currentTimeMillis()) {
-			getMapRef().getProjectiles().add(new Projectile(getMapRef(), player, this, (player.getRotation() - 90 + MathUtils.random(-currentSpread/2, currentSpread/2))));
-			lastFired = System.currentTimeMillis();
+			
+			// remove bullet
+			if(bulletsRemaining > 0){
+				bulletsRemaining--;
+			} else if (bulletsRemaining <= 0) {
+				bulletsRemaining = capacity;
+				ammo -= capacity;
+				if (ammo <= 0) {
+					bulletsRemaining += ammo;
+					ammo = 0;
+				}
+				if (bulletsRemaining <= 0) {
+					ammo = 0;
+					bulletsRemaining = 0;
+				}
+			}
+		
+			// create projectile if there are bullets available
+			if (bulletsRemaining > 0) {
+				getMapRef().getProjectiles().add(new Projectile(getMapRef(), player, this, (player.getRotation() - 90 + MathUtils.random(-currentSpread/2, currentSpread/2))));
+				lastFired = System.currentTimeMillis();
+			}
 		}
 	} // shoot
 	
@@ -332,17 +352,17 @@ public class Weapon extends Entity{
 			power = 36; // max damage
 			penetration = 0.775; // % power to surpass armor 
 			fallOffRate = 0; // decrease in power per tick
-			reloadTime = 0; // time to reload	
+			reloadTime = 2500; // time to reload	
 			velocity = 0; // bullet velocity
 			movementSpeed = 0; // % of max movement speed
 			fireRate = 100; // firing delay (ms)
 			lastFired = 0; // time when gun was last fired (ms)	
 			spread = 15; // max spread (degrees)
-			capacity = 0; // bullets per magazine
-			ammo = 0; // bullets remaining aside
-			cost = 0; // buy cost
-			killAward = 0; // money awarded for kill
-			bulletsRemaining = 0; // bullets left in current magazine
+			capacity = 30; // bullets per magazine
+			ammo = 90; // bullets remaining aside
+			cost = 2700; // buy cost
+			killAward = 300; // money awarded for kill
+			bulletsRemaining = 30; // bullets left in current magazine
 			
 			setSprite(new Sprite(new Texture("sprites/AK47.png")));
 			break;
