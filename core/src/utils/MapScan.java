@@ -10,6 +10,7 @@ public class MapScan {
 	private Map targetMap;
 	private int target;
 	private int target2;
+	private int target3;
 	private pixelState[][] state;
 	
 	enum pixelState {
@@ -38,8 +39,7 @@ public class MapScan {
 			}
 		}
 	} // MapScan Constructor
-	
-	
+
 	/**
 	 * Analyzes given image and adds Box2D bodies accordingly. (Method 4)
 	 */

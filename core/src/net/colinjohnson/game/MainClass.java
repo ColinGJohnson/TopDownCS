@@ -290,7 +290,7 @@ public class MainClass extends Game {
 		font2.draw(hudBatch, player.getWeapon().getBulletsRemaining() + "/" + player.getWeapon().getAmmo(), Gdx.graphics.getWidth() - 120, 36);
 		hudBatch.end();
 		hudBatch.disableBlending();
-		Gdx.gl.glDisable(GL20.GL_BLEND);	
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
 	@Override
