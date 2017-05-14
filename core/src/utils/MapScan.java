@@ -9,6 +9,7 @@ public class MapScan {
 	private Pixmap map;
 	private Map targetMap;
 	private int target;
+	private int target2;
 	private pixelState[][] state;
 	
 	enum pixelState {
@@ -28,12 +29,12 @@ public class MapScan {
 		this.targetMap = targetMap;
 		
 		//TODO: Proper color conversion
-		//target = Color.rgb888(targetColor);
-		target= -2139062017;
+		target = Color.rgba8888(new Color(0x808080ff));
+		target2 = Color.rgba8888(new Color(0xff6e00ff));
 		state = new pixelState[map.getHeight()][map.getWidth()];
 		for (int i = 0; i < state.length; i++) {
 			for (int j = 0; j < state[0].length; j++) {
-				state[i][j] = pixelState.free;
+				state[i][j] = pixelState.invalid;
 			}
 		}
 	} // MapScan Constructor
@@ -46,8 +47,8 @@ public class MapScan {
 		
 		for (int y = 0; y < map.getHeight(); y++) {
 			for (int x = 0; x < map.getWidth(); x++) {
-				if (map.getPixel(x, y) > target + 10000 || map.getPixel(x, y) < target - 10000) {	
-					 state[x][y] = pixelState.invalid;
+				if (map.getPixel(x, y) == target || map.getPixel(x, y) == target2) {	
+					 state[x][y] = pixelState.free;
 				}
 			}
 		}

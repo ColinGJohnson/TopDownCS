@@ -19,8 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
 import utils.Constants;
 import utils.MapScan;
 
@@ -256,9 +254,11 @@ public class MainClass extends Game {
 		// render test Box2D shapes
 		if (Constants.DEBUG_DRAW)b2dr.render(map.getWorld(), camera.combined.scl(PPM));
 		
-		// draw HUD with opacity
+		// enable blending
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		
+		// draw background grey
 		hudShapes.begin(ShapeType.Filled);
 		hudShapes.setColor(0.2f, 0.2f, 0.2f, 0.5f);		
 		hudShapes.rect(0, Gdx.graphics.getHeight() - 200, 200, 200);
@@ -268,6 +268,8 @@ public class MainClass extends Game {
 		hudShapes.setColor(Color.DARK_GRAY);
 		hudShapes.rect(100, 20, 100, 10);
 		hudShapes.rect(300, 20, 100, 10);
+		
+		// health and armor bars
 		hudShapes.setColor(Color.WHITE);
 		hudShapes.rect(100, 20, 100 * player.getHealth()/player.getMaxHealth(), 10);
 		hudShapes.rect(300, 20, 100 * player.getArmor()/player.getMaxArmor(), 10);
@@ -277,15 +279,15 @@ public class MainClass extends Game {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		hudBatch.enableBlending();
+		
+		// money health armor and ammo text
 		hudBatch.begin();	
-		hudBatch.setColor(0, 0, 0, 0.5f);
 		font2.setColor(Color.WHITE);
 		font2.getData().setScale(1f);
 		font2.draw(hudBatch, "$ " + player.getMoney(), 10, Gdx.graphics.getHeight() - 222);
 		font2.draw(hudBatch, "+:" + player.getHealth(), 15, 36);
 		font2.draw(hudBatch, "A:" + player.getArmor(), 220, 36);
 		font2.draw(hudBatch, player.getWeapon().getBulletsRemaining() + "/" + player.getWeapon().getAmmo(), Gdx.graphics.getWidth() - 120, 36);
-		font2.draw(hudBatch, "A:" + player.getArmor(), 220, 36);
 		hudBatch.end();
 		hudBatch.disableBlending();
 		Gdx.gl.glDisable(GL20.GL_BLEND);	
